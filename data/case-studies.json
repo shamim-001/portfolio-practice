@@ -1,0 +1,49 @@
+[
+  {
+    "id": "1",
+    "title": "Local Restaurant SEO Success",
+    "description": "How we helped a local restaurant increase their organic traffic by 200% and improve their local rankings.",
+    "image": "/placeholder.svg",
+    "industry": "Restaurant",
+    "challenge": "A local restaurant was struggling to attract customers through online channels and had poor visibility in local search results.",
+    "solution": "Implemented a comprehensive local SEO strategy including Google Business Profile optimization, local content creation, and citation building.",
+    "results": [
+      {
+        "metric": "Organic Traffic Increase",
+        "value": "200%"
+      },
+      {
+        "metric": "Local Pack Rankings",
+        "value": "Top 3"
+      }
+    ],
+    "featured": true,
+    "content": "Detailed case study content goes here...",
+    "createdAt": "2024-02-26T12:00:00.000Z",
+    "updatedAt": "2024-02-26T12:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "title": "Dental Practice Growth Strategy",
+    "description": "Helping a dental practice dominate local search results and attract more patients.",
+    "image": "/placeholder.svg",
+    "industry": "Healthcare",
+    "challenge": "A dental practice needed to increase their visibility in a competitive market and attract more local patients.",
+    "solution": "Developed a targeted local SEO strategy with focus on service-specific content and review management.",
+    "results": [
+      {
+        "metric": "New Patient Inquiries",
+        "value": "150%"
+      },
+      {
+        "metric": "Google Reviews",
+        "value": "4.9★"
+      }
+    ],
+    "featured": true,
+    "content": "Detailed case study content goes here...",
+    "createdAt": "2024-02-26T13:00:00.000Z",
+    "updatedAt": "2024-02-26T13:00:00.000Z"
+  }
+]
+

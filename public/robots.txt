@@ -1,0 +1,10 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://shamimahsan.com/sitemap.xml
+
+# Disallow admin routes
+Disallow: /admin/
+

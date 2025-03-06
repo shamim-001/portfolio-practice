@@ -1,0 +1,48 @@
+[
+  {
+    "id": "1",
+    "title": "E-commerce Website Redesign",
+    "description": "A modern e-commerce platform built with Next.js and Shopify, featuring a responsive design and optimized checkout process.",
+    "image": "/placeholder.svg",
+    "link": "https://example.com",
+    "tags": [
+      "Next.js",
+      "Shopify",
+      "Tailwind CSS"
+    ],
+    "featured": false,
+    "createdAt": "2024-02-26T12:00:00.000Z",
+    "updatedAt": "2025-03-06T13:30:56.948Z",
+    "categories": []
+  },
+  {
+    "id": "2",
+    "title": "Restaurant Website",
+    "description": "A responsive website for a local restaurant with online ordering capabilities and real-time table reservations.",
+    "image": "/placeholder.svg",
+    "link": "https://example.com",
+    "tags": [
+      "React",
+      "Node.js",
+      "MongoDB"
+    ],
+    "featured": true,
+    "createdAt": "2024-02-26T13:00:00.000Z",
+    "updatedAt": "2024-02-26T13:00:00.000Z"
+  },
+  {
+    "id": "391d506d-857d-4597-8a22-f0ade494d70d",
+    "title": "New Project",
+    "description": "New Project description. New Project description. New Project description. New Project description. New Project description. New Project description. ",
+    "image": "/uploads/0b580ce5-217d-44aa-b2ad-dc6532333bd9-shamim-ahsan-webdesigner-seo-expert.jpg",
+    "link": "https://www.google.com",
+    "tags": [
+      "Framer",
+      "reactjs"
+    ],
+    "categories": [],
+    "featured": false,
+    "createdAt": "2025-03-06T13:30:41.187Z",
+    "updatedAt": "2025-03-06T13:30:41.187Z"
+  }
+]
