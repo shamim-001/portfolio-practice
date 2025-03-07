@@ -1,13 +1,21 @@
 "use client"
 
 import { Suspense } from "react"
-import { usePathname, useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 
+// Main component with Suspense boundary
+export function NavigationWithSearch() {
+  return (
+    <Suspense fallback={<div className="animate-pulse h-6 w-96 bg-muted rounded" />}>
+      <NavigationContent />
+    </Suspense>
+  )
+}
+
+// Content component that uses client hooks
 function NavigationContent() {
   const pathname = usePathname()
-  const searchParams = useSearchParams()
 
   const navigation = [
     { name: "Home", href: "/" },
@@ -71,11 +79,5 @@ function NavigationContent() {
   )
 }
 
-export function NavigationWithSearch() {
-  return (
-    <Suspense fallback={<div className="animate-pulse h-6 w-96 bg-muted rounded" />}>
-      <NavigationContent />
-    </Suspense>
-  )
-}
+import { usePathname } from "next/navigation"
 

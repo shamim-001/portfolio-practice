@@ -1,23 +1,10 @@
 "use client"
 
 import { Suspense } from "react"
-import { usePathname, useSearchParams } from "next/navigation"
 import { Navbar } from "@/components/navbar"
 import { Breadcrumbs } from "@/components/breadcrumbs"
 
-function NavigationContent() {
-  // This ensures useSearchParams is used within Suspense
-  useSearchParams()
-  const pathname = usePathname()
-
-  return (
-    <>
-      <Navbar />
-      <Breadcrumbs />
-    </>
-  )
-}
-
+// Main component with Suspense boundary
 export function ClientNavigation() {
   return (
     <Suspense
@@ -31,7 +18,10 @@ export function ClientNavigation() {
         </div>
       }
     >
-      <NavigationContent />
+      <div>
+        <Navbar />
+        <Breadcrumbs />
+      </div>
     </Suspense>
   )
 }

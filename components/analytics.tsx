@@ -1,8 +1,8 @@
 "use client"
 
-import { usePathname, useSearchParams } from "next/navigation"
 import Script from "next/script"
 import { useEffect, useState } from "react"
+import { Suspense } from "react"
 
 // Define the global plausible type
 declare global {
@@ -25,9 +25,17 @@ function isDoNotTrackEnabled(): boolean {
   return dnt
 }
 
+// Main component with Suspense boundary
 export function Analytics() {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
+  return (
+    <Suspense fallback={null}>
+      <AnalyticsContent />
+    </Suspense>
+  )
+}
+
+// Content component that uses client hooks
+function AnalyticsContent() {
   const [mounted, setMounted] = useState(false)
 
   // Only run after component has mounted to access browser APIs
@@ -49,7 +57,7 @@ export function Analytics() {
     if (typeof window.plausible !== "undefined") {
       window.plausible("pageview")
     }
-  }, [pathname, searchParams, mounted])
+  }, [mounted])
 
   // Don't load analytics script if Do Not Track is enabled
   if (mounted && isDoNotTrackEnabled()) {

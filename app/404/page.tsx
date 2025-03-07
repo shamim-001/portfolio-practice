@@ -1,6 +1,6 @@
 "use client"
 
-export default function NotFoundPage() {
+export default function Custom404Page() {
   return (
     <div className="container flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center gap-4">
       <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">

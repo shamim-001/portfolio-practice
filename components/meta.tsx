@@ -1,4 +1,6 @@
-import Head from "next/head"
+"use client"
+
+import { Suspense } from "react"
 
 interface MetaProps {
   title: string
@@ -9,7 +11,17 @@ interface MetaProps {
   keywords?: string[]
 }
 
-export function Meta({
+// Main component with Suspense boundary
+export function Meta(props: MetaProps) {
+  return (
+    <Suspense fallback={null}>
+      <MetaContent {...props} />
+    </Suspense>
+  )
+}
+
+// Content component that uses client hooks
+function MetaContent({
   title,
   description,
   ogImage = "/og-image.jpg",
@@ -22,7 +34,7 @@ export function Meta({
   const fullOgImage = ogImage.startsWith("http") ? ogImage : `${baseUrl}${ogImage}`
 
   return (
-    <Head>
+    <>
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords.join(", ")} />
@@ -43,7 +55,7 @@ export function Meta({
 
       {/* Canonical */}
       <link rel="canonical" href={fullCanonical} />
-    </Head>
+    </>
   )
 }
 

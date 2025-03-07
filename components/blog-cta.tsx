@@ -3,8 +3,19 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useState, useEffect } from "react"
+import { Suspense } from "react"
 
+// Main component with Suspense boundary
 export function BlogCTA() {
+  return (
+    <Suspense fallback={null}>
+      <BlogCTAContent />
+    </Suspense>
+  )
+}
+
+// Content component that uses client hooks
+function BlogCTAContent() {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -44,7 +55,9 @@ export function BlogCTA() {
       </p>
       <div className="mt-4 flex gap-4">
         <Button asChild className="w-full">
-          <Link href="/contact">Get Started</Link>
+          <Link href="/contact" onClick={() => setIsVisible(false)}>
+            Get Started
+          </Link>
         </Button>
         <Button variant="outline" className="shrink-0" onClick={handleClose}>
           Close
