@@ -1,10 +1,18 @@
-"use client"
-
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Home, Search, ArrowLeft } from "lucide-react"
+import { ClientWrapper } from "@/components/client-wrapper"
 
-export default function NotFound() {
+export default function NotFoundPage() {
+  return (
+    <ClientWrapper>
+      <NotFoundContent />
+    </ClientWrapper>
+  )
+}
+// Client component separated to avoid useSearchParams issues
+;("use client")
+function NotFoundContent() {
   return (
     <div className="container flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center gap-4">
       <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
