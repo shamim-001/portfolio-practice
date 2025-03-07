@@ -7,31 +7,64 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Menu, X, ChevronDown } from "lucide-react"
+import { Suspense } from "react"
 
-const navigation = [
-  { name: "Home", href: "/" },
-  { name: "About", href: "/about" },
-  {
-    name: "Projects",
-    href: "/projects",
-    dropdown: true,
-    items: [
-      { name: "Web Projects", href: "/projects" },
-      { name: "SEO Case Studies", href: "/seo-case-studies" },
-    ],
-  },
-  { name: "Blog", href: "/blog" },
-  { name: "Services", href: "/services" },
-  { name: "Contact", href: "/contact" },
-]
-
+// Main component with Suspense boundary
 export function Navbar() {
+  return (
+    <Suspense fallback={<NavbarSkeleton />}>
+      <NavbarContent />
+    </Suspense>
+  )
+}
+
+// Skeleton loading state
+function NavbarSkeleton() {
+  return (
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container relative flex h-16 items-center justify-between">
+        <div className="h-8 w-40 animate-pulse rounded-md bg-muted"></div>
+        <div className="hidden md:block">
+          <div className="flex items-center space-x-6">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="h-4 w-16 animate-pulse rounded-md bg-muted"></div>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="h-8 w-8 animate-pulse rounded-full bg-muted"></div>
+          <div className="h-8 w-20 animate-pulse rounded-md bg-muted"></div>
+        </div>
+      </div>
+    </header>
+  )
+}
+
+// Content component that uses client hooks
+function NavbarContent() {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
   const [activeDropdown, setActiveDropdown] = React.useState<string | null>(null)
   const dropdownTimeoutRef = React.useRef<NodeJS.Timeout>()
   const mobileMenuRef = React.useRef<HTMLDivElement>(null)
   const menuButtonRef = React.useRef<HTMLButtonElement>(null)
+
+  const navigation = [
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    {
+      name: "Projects",
+      href: "/projects",
+      dropdown: true,
+      items: [
+        { name: "Web Projects", href: "/projects" },
+        { name: "SEO Case Studies", href: "/seo-case-studies" },
+      ],
+    },
+    { name: "Blog", href: "/blog" },
+    { name: "Services", href: "/services" },
+    { name: "Contact", href: "/contact" },
+  ]
 
   // Close mobile menu when clicking outside
   React.useEffect(() => {

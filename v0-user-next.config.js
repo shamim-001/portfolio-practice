@@ -19,10 +19,9 @@ const nextConfig = {
       },
     ],
   },
-  // Disable static generation for client components
-  output: "export",
-  // Disable image optimization for static export
-  unoptimized: true,
+  // Remove these options as they're causing issues with Next.js 15
+  // output: "export",
+  // unoptimized: true,
 }
 
 module.exports = nextConfig

@@ -3,8 +3,29 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Home, Search, ArrowLeft } from "lucide-react"
+import { Suspense } from "react"
 
+// Main component with Suspense boundary
 export default function NotFoundPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="container flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center">
+          <div className="animate-pulse space-y-4">
+            <div className="h-20 w-20 mx-auto rounded-full bg-muted"></div>
+            <div className="h-8 w-40 mx-auto bg-muted rounded"></div>
+            <div className="h-4 w-60 mx-auto bg-muted rounded"></div>
+          </div>
+        </div>
+      }
+    >
+      <NotFoundContent />
+    </Suspense>
+  )
+}
+
+// Separate the part that uses client hooks
+function NotFoundContent() {
   return (
     <div className="container flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center gap-4">
       <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
