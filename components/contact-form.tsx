@@ -10,10 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
-import { isClient, safeSessionStorage } from "@/lib/environment"
-import { withErrorBoundary } from "@/components/error-boundary"
 
-// Form validation schema
 const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
@@ -29,21 +26,17 @@ const formSchema = z.object({
   }),
 })
 
-// Type for form values
-type FormValues = z.infer<typeof formSchema>
-
-function ContactFormComponent() {
+export function ContactForm() {
   const searchParams = useSearchParams()
   const [isLoading, setIsLoading] = React.useState(false)
   const [isSubmitted, setIsSubmitted] = React.useState(false)
   const [mounted, setMounted] = React.useState(false)
-  const [submitError, setSubmitError] = React.useState<string | null>(null)
 
   // Get values from URL parameters if they exist
   const subjectParam = searchParams?.get("subject") || ""
   const messageParam = searchParams?.get("message") || ""
 
-  const form = useForm<FormValues>({
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -63,21 +56,7 @@ function ContactFormComponent() {
 
   React.useEffect(() => {
     setMounted(true)
-
-    // Check if there was a previous submission attempt
-    if (isClient) {
-      const savedFormData = safeSessionStorage("contactFormData")
-      if (savedFormData) {
-        try {
-          const parsedData = JSON.parse(savedFormData)
-          form.reset(parsedData)
-        } catch (e) {
-          console.error("Error parsing saved form data:", e)
-          safeSessionStorage("contactFormData", null)
-        }
-      }
-    }
-  }, [form])
+  }, [])
 
   if (!mounted) {
     return (
@@ -93,45 +72,29 @@ function ContactFormComponent() {
     )
   }
 
-  async function onSubmit(values: FormValues) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true)
-    setSubmitError(null)
-
-    // Save form data in case of error
-    if (isClient) {
-      safeSessionStorage("contactFormData", JSON.stringify(values))
-    }
 
     try {
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
-
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(values),
-        signal: controller.signal,
       })
-
-      clearTimeout(timeoutId)
 
       const data = await response.json()
 
       if (!response.ok) {
         // Handle rate limiting specifically
         if (response.status === 429) {
-          throw new Error("Too many submissions. Please try again later.")
+          toast.error("Too many submissions. Please try again later.")
+          return
         }
 
         // Handle other API errors with the error message from the server if available
-        throw new Error(data.error?.message || "Failed to send message")
-      }
-
-      // Clear saved form data on success
-      if (isClient) {
-        safeSessionStorage("contactFormData", null)
+        throw new Error(data.error || "Failed to send message")
       }
 
       form.reset()
@@ -139,25 +102,11 @@ function ContactFormComponent() {
       toast.success("Message sent successfully! We'll get back to you soon.")
     } catch (error) {
       console.error("Contact form error:", error)
-
-      // Handle abort error specifically
-      if (error instanceof DOMException && error.name === "AbortError") {
-        setSubmitError("Request timed out. Please try again.")
-        toast.error("Request timed out. Please try again.")
-        return
-      }
-
       const errorMessage = error instanceof Error ? error.message : "Failed to send message. Please try again later."
-      setSubmitError(errorMessage)
       toast.error(errorMessage)
     } finally {
       setIsLoading(false)
     }
-  }
-
-  function handleTryAgain() {
-    setIsSubmitted(false)
-    setSubmitError(null)
   }
 
   if (isSubmitted) {
@@ -177,7 +126,7 @@ function ContactFormComponent() {
         </div>
         <h3 className="mt-4 text-lg font-medium">Thank you for your message!</h3>
         <p className="mt-2 text-muted-foreground">I'll get back to you as soon as possible.</p>
-        <Button className="mt-6" onClick={handleTryAgain}>
+        <Button className="mt-6" onClick={() => setIsSubmitted(false)}>
           Send another message
         </Button>
       </div>
@@ -187,12 +136,6 @@ function ContactFormComponent() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {submitError && (
-          <div className="rounded-md bg-destructive/10 p-4 text-destructive">
-            <p>{submitError}</p>
-          </div>
-        )}
-
         <FormField
           control={form.control}
           name="name"
@@ -272,7 +215,4 @@ function ContactFormComponent() {
     </Form>
   )
 }
-
-// Export with error boundary
-export const ContactForm = withErrorBoundary(ContactFormComponent)
 

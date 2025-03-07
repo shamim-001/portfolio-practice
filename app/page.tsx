@@ -11,6 +11,7 @@ import { readFile } from "fs/promises"
 import { join } from "path"
 import type { Project, CaseStudy } from "@/types"
 import { Spacer } from "@/components/ui/spacer"
+import { ClientWrapper } from "@/components/client-wrapper"
 
 async function getProjects(): Promise<Project[]> {
   try {
@@ -56,37 +57,39 @@ export default async function Page() {
   const caseStudies = results[2].status === "fulfilled" ? results[2].value : []
 
   return (
-    <>
-      <AnimatedSection>
-        <HeroSection />
-      </AnimatedSection>
+    <ClientWrapper>
+      <>
+        <AnimatedSection>
+          <HeroSection />
+        </AnimatedSection>
 
-      <AnimatedSection delay={0.2}>
-        <AboutSection />
-      </AnimatedSection>
+        <AnimatedSection delay={0.2}>
+          <AboutSection />
+        </AnimatedSection>
 
-      <AnimatedSection delay={0.3}>
-        <ProjectsSection projects={projects} />
-      </AnimatedSection>
+        <AnimatedSection delay={0.3}>
+          <ProjectsSection projects={projects} />
+        </AnimatedSection>
 
-      <AnimatedSection delay={0.4}>
-        <SEOAuditSection />
-      </AnimatedSection>
+        <AnimatedSection delay={0.4}>
+          <SEOAuditSection />
+        </AnimatedSection>
 
-      <AnimatedSection delay={0.5}>
-        <CaseStudiesSection caseStudies={caseStudies} />
-      </AnimatedSection>
+        <AnimatedSection delay={0.5}>
+          <CaseStudiesSection caseStudies={caseStudies} />
+        </AnimatedSection>
 
-      <AnimatedSection delay={0.6}>
-        <BlogSection posts={posts} className="pb-0" />
-      </AnimatedSection>
+        <AnimatedSection delay={0.6}>
+          <BlogSection posts={posts} className="pb-0" />
+        </AnimatedSection>
 
-      <Spacer size="sm" />
+        <Spacer size="sm" />
 
-      <AnimatedSection delay={0.7}>
-        <ContactSection className="pt-0" />
-      </AnimatedSection>
-    </>
+        <AnimatedSection delay={0.7}>
+          <ContactSection className="pt-0" />
+        </AnimatedSection>
+      </>
+    </ClientWrapper>
   )
 }
 

@@ -3,15 +3,15 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Analytics } from "@/components/analytics"
-import { PageTransition } from "@/components/page-transition"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
 import { Toaster } from "sonner"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { Suspense } from "react"
 import { LoadingState } from "@/components/loading-state"
 import Script from "next/script"
 import { generateWebsiteStructuredData, generateLocalBusinessStructuredData } from "@/lib/structured-data"
+import { ClientWrapper } from "@/components/client-wrapper"
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
 import "./globals.css"
 
 const inter = Inter({
@@ -131,13 +131,15 @@ export default function RootLayout({
               >
                 Skip to main content
               </a>
-              <Navbar />
+              <ClientWrapper>
+                <Navbar />
+              </ClientWrapper>
               <main id="main-content" className="flex-1">
-                <Suspense fallback={<LoadingState />}>
-                  <PageTransition>{children}</PageTransition>
-                </Suspense>
+                <Suspense fallback={<LoadingState />}>{children}</Suspense>
               </main>
-              <Footer />
+              <ClientWrapper>
+                <Footer />
+              </ClientWrapper>
             </div>
           </ErrorBoundary>
           <Analytics />
