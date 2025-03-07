@@ -23,7 +23,7 @@ export function middleware(request: NextRequest) {
     if (request.nextUrl.pathname === "/admin/login") {
       // Redirect to admin dashboard if already logged in
       if (hasAdminSession) {
-        return NextResponse.redirect(new URL("/admin", request.url))
+        return NextResponse.redirect(new URL("/admin/dashboard", request.url))
       }
       return response
     }

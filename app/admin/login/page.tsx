@@ -32,7 +32,7 @@ export default function AdminLoginPage() {
       const data = await res.json()
 
       if (data.success) {
-        router.push("/admin")
+        router.push("/admin/dashboard")
         router.refresh()
       } else {
         setError(data.error || "Invalid password")

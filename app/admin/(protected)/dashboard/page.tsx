@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FileText, Users, Eye } from "lucide-react"
-import { getAllPosts } from "@/lib/mdx"
+import { getAllPosts } from "@/lib/posts"
 
 export default async function AdminDashboardPage() {
   const posts = await getAllPosts()

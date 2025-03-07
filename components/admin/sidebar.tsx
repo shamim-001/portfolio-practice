@@ -5,39 +5,14 @@ import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { LayoutDashboard, FileText, Briefcase, BarChart, LogOut } from "lucide-react"
-import { Suspense } from "react"
 
-// Main component with Suspense boundary
 export function AdminSidebar() {
-  return (
-    <Suspense fallback={<AdminSidebarSkeleton />}>
-      <AdminSidebarContent />
-    </Suspense>
-  )
-}
-
-// Skeleton loading state
-function AdminSidebarSkeleton() {
-  return (
-    <div className="w-64 min-h-screen bg-muted p-4 space-y-4">
-      <div className="h-6 w-40 animate-pulse rounded-md bg-muted-foreground/20"></div>
-      <div className="space-y-2">
-        {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="h-10 w-full animate-pulse rounded-md bg-muted-foreground/20"></div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-// Content component that uses client hooks
-function AdminSidebarContent() {
   const pathname = usePathname()
 
   const navigation = [
     {
       name: "Dashboard",
-      href: "/admin",
+      href: "/admin/dashboard",
       icon: LayoutDashboard,
     },
     {
@@ -72,15 +47,18 @@ function AdminSidebarContent() {
       <nav className="space-y-1">
         {navigation.map((item) => {
           const Icon = item.icon
+          const isActive =
+            pathname === item.href ||
+            (item.href === "/admin/dashboard" && pathname === "/admin") ||
+            pathname.startsWith(`${item.href}/`)
+
           return (
             <Link
               key={item.name}
               href={item.href}
               className={cn(
                 "flex items-center gap-3 px-4 py-2 text-sm font-medium rounded-md",
-                pathname === item.href || (item.href === "/admin" && pathname === "/admin/dashboard")
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-muted-foreground/10",
+                isActive ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted-foreground/10",
               )}
             >
               <Icon className="h-5 w-5" />
