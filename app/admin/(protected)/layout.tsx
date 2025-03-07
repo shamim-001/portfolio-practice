@@ -1,24 +1,11 @@
 import type React from "react"
-import { headers } from "next/headers"
-import { redirect } from "next/navigation"
 import { AdminSidebar } from "@/components/admin/sidebar"
 
-async function validateAdmin() {
-  const headersList = headers()
-  const hasAdminSession = headersList.get("cookie")?.includes("admin_session=true")
-
-  if (!hasAdminSession) {
-    redirect("/admin/login")
-  }
-}
-
-export default async function ProtectedAdminLayout({
+export default function ProtectedAdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  await validateAdmin()
-
   return (
     <div className="flex min-h-screen">
       <AdminSidebar />

@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft, Calendar, User } from "lucide-react"
 import { notFound } from "next/navigation"
 import { getPost } from "@/lib/posts"
-import { BlogCTA } from "@/components/blog-cta"
 import { generateSEO } from "@/lib/seo"
 import { generatePostStructuredData } from "@/lib/structured-data"
 import Script from "next/script"
@@ -127,7 +126,6 @@ export default function PostPage({ params }: PostPageProps) {
           </div>
         </div>
       </article>
-      <BlogCTA />
     </>
   )
 }

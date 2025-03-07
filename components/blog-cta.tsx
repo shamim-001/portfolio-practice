@@ -3,19 +3,8 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import { Suspense } from "react"
 
-// Main component with Suspense boundary
 export function BlogCTA() {
-  return (
-    <Suspense fallback={null}>
-      <BlogCTAContent />
-    </Suspense>
-  )
-}
-
-// Content component that uses client hooks
-function BlogCTAContent() {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {

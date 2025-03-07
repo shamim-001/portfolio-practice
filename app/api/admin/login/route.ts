@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
 import { cookies } from "next/headers"
-import { randomBytes } from "crypto"
 
 // Rate limiting
 const RATE_LIMIT_WINDOW = 60 * 1000 // 1 minute
@@ -9,25 +8,6 @@ const LOCKOUT_DURATION = 15 * 60 * 1000 // 15 minutes
 
 // In-memory store for rate limiting (in production, use Redis or similar)
 const loginAttempts = new Map<string, { count: number; timestamp: number; locked?: boolean; lockUntil?: number }>()
-
-// Clean up old entries periodically
-let cleanupInterval: NodeJS.Timeout | null = null
-if (typeof window === "undefined") {
-  // Only run on server
-  cleanupInterval = setInterval(() => {
-    const now = Date.now()
-    for (const [ip, data] of loginAttempts.entries()) {
-      // Remove expired lockouts
-      if (data.locked && data.lockUntil && now > data.lockUntil) {
-        loginAttempts.delete(ip)
-      }
-      // Remove old attempt records
-      else if (now - data.timestamp > RATE_LIMIT_WINDOW) {
-        loginAttempts.delete(ip)
-      }
-    }
-  }, 60 * 1000) // Clean up every minute
-}
 
 export async function POST(request: Request) {
   try {
@@ -90,9 +70,6 @@ export async function POST(request: Request) {
     }
 
     if (password === process.env.ADMIN_PASSWORD) {
-      // Generate a secure session token
-      const sessionToken = randomBytes(32).toString("hex")
-
       // Set admin session cookie
       cookies().set("admin_session", "true", {
         httpOnly: true,

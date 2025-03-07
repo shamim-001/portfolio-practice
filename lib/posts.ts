@@ -13,6 +13,7 @@ export interface Post {
   image: string
 }
 
+// This function should only be called on the server
 export function getAllPosts(): Post[] {
   try {
     // Check if directory exists
@@ -50,6 +51,7 @@ export function getAllPosts(): Post[] {
   }
 }
 
+// This function should only be called on the server
 export function getPost(slug: string): Post | undefined {
   try {
     const fullPath = join(postsDirectory, `${slug}.mdx`)
