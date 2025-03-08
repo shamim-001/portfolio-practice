@@ -67,11 +67,12 @@ export function AdminSidebar() {
           )
         })}
       </nav>
-      <div className="flex-1" />
-      <Button variant="ghost" className="w-full justify-start gap-3" onClick={handleLogout}>
-        <LogOut className="h-5 w-5" />
-        Logout
-      </Button>
+      <div className="mt-auto pt-4">
+        <Button variant="ghost" className="w-full justify-start gap-3" onClick={handleLogout}>
+          <LogOut className="h-5 w-5" />
+          Logout
+        </Button>
+      </div>
     </div>
   )
 }
